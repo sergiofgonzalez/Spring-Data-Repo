@@ -1,0 +1,187 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.joolzminer</groupId>
+		<artifactId>chapter-04-jpa-repositories</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+    <artifactId>004-jpa-springdata-repositories-javaconfig</artifactId>
+
+    <packaging>jar</packaging>
+
+    <name>|-- 004-jpa-springdata-repositories-javaconfig</name>
+	<description>
+		Keywords:
+			+ SpringData JPA Repositories
+			+ CrudRepository
+			+ PagingAndSortingRepository
+			+ JavaConfig
+
+		This project demonstrates how to leverage SpringData capabilities to avoid
+		having to implement JPA Repositories.
+		
+		Using as the first step the project 003- we change the Repository interfaces
+		to leverage the Repository, CrudRepository and PagingAndSortingRepository
+		to provide persistent capabilities to the project without implementing
+		a single line or JPA or Hibernate.
+		
+		The configuration is performed using JavaConfig (look Ma, no XML!) and the EntityManagerFactory,
+		the Transaction Manager and the DataSource are created in this way.
+		
+		Integration tests are written to check some basic functionalities of the Repositories. For
+		the assertions quite advanced usage of hamcrest matchers is performed.
+	</description>
+
+	<properties>		
+		<javax.inject.version>1</javax.inject.version>
+		<spring.context.version>3.2.6.RELEASE</spring.context.version>
+		<spring.orm.version>3.2.6.RELEASE</spring.orm.version>
+		<spring.data.jpa.version>1.4.3.RELEASE</spring.data.jpa.version>
+		<spring.test.version>3.2.6.RELEASE</spring.test.version>
+		<hibernate.entitymanager.version>4.3.0.Final</hibernate.entitymanager.version>
+		<hibernate.validator.version>5.0.2.Final</hibernate.validator.version>		
+		<apache.commons.dbcp.version>1.4</apache.commons.dbcp.version>
+		<mysql.connector.version>5.1.28</mysql.connector.version>
+		<querydsl.version>3.3.0</querydsl.version>
+		<hamcrest.version>1.3</hamcrest.version>
+	</properties>
+
+	<dependencies>
+		<!-- ### @Inject annotation ### -->
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>${javax.inject.version}</version>
+		</dependency>
+	
+		<!-- ### SPRING ### -->
+		
+		<!-- context -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.context.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+						
+		<!-- ORM -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.orm.version}</version>
+		</dependency>
+		
+		<!-- Spring Data -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>${spring.data.jpa.version}</version>
+		</dependency>
+		
+		<!-- Test -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.test.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-core</artifactId>
+			<version>${hamcrest.version}</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-library</artifactId>
+			<version>${hamcrest.version}</version>
+			<scope>test</scope>			
+		</dependency>
+		
+		
+		<!-- ### Hibernate ORM ### -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>${hibernate.entitymanager.version}</version>
+		</dependency>
+		
+		<!-- ### Hibernate Validator ### -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>${hibernate.validator.version}</version>
+		</dependency>
+				
+		<!-- ### Database ### -->
+		
+		<!-- Database Connection Pool -->
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>${apache.commons.dbcp.version}</version>
+		</dependency>		
+		
+		<!-- JDBC Driver for MySQL -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.connector.version}</version>
+		</dependency>
+		
+		<!-- ### QueryDSL ### -->
+		<dependency>
+			<groupId>com.mysema.querydsl</groupId>
+			<artifactId>querydsl-core</artifactId>
+			<version>${querydsl.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.mysema.querydsl</groupId>
+			<artifactId>querydsl-jpa</artifactId>
+			<version>${querydsl.version}</version>
+		</dependency>
+		
+	</dependencies>
+
+	<build>
+		<plugins>			
+			<plugin>
+				<groupId>com.mysema.maven</groupId>
+				<artifactId>apt-maven-plugin</artifactId>
+				<version>1.1.1</version>
+				<dependencies>
+					<dependency>
+						<groupId>com.mysema.querydsl</groupId>
+						<artifactId>querydsl-apt</artifactId>
+						<version>${querydsl.version}</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>process</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/generated-sources/java</outputDirectory>
+							<processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+
+</project>
+

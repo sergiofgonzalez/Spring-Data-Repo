@@ -1,0 +1,45 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.joolzminer</groupId>
+		<artifactId>chapter-06-mongodb</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+    <artifactId>007-basic-mongodb</artifactId>
+
+    <packaging>jar</packaging>
+
+    <name>|-- 007-basic-mongodb</name>
+	<description>
+		Keywords:
+			+ MongoDB
+
+		This project demonstrates how to connect an insert a simple document into a MongoDB
+		instance that is running on local.
+		This project only declares as dependency the MongoDB java driver.
+		
+		MongoDemo:
+			This class creates a connection with a database named "local" in a local MongoDB instance
+			and creates programatically a Customer document and insert it in the customers collection.					
+	</description>
+
+	<properties>		
+		<mongo.driver.version>2.9.3</mongo.driver.version>
+	</properties>
+
+	<dependencies>
+		<!-- ### Database ### -->
+		
+		<!-- MongoDB Driver -->
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>${mongo.driver.version}</version>
+		</dependency>		
+		
+	</dependencies>
+</project>
+

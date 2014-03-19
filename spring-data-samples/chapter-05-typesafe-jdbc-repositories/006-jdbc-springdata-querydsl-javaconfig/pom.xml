@@ -1,0 +1,199 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.joolzminer</groupId>
+		<artifactId>chapter-05-typesafe-jdbc-repositories</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+    <artifactId>006-jdbc-springdata-querydsl-javaconfig</artifactId>
+
+    <packaging>jar</packaging>
+
+    <name>|-- 006-jdbc-springdata-querydsl-javaconfig</name>
+	<description>
+		TODO
+		Keywords:
+			+ SpringData JPA Repositories
+			+ QueryDsl
+			+ Type-Safe Predicates
+			+ JavaConfig
+
+		This project demonstrates how to leverage QueryDsl and SpringData capabilities 
+		to avoid having to implement JPA Repositories and also use type-safe predicates
+		like product.name.eq("iPad") instead of equals("name", "ipad").
+		
+		Using as the first step the project 004- we change the Product Repository interface
+		and declare that it also extends QueryDslPredicateExecutor, that pulls findAll(Predicate)
+		and findOne(Predicate) into the API.
+		This is demonstrated into the QueryDslProductRepositoryIntegrationTests.
+		
+		The pom.xml is also configured to make use of QueryDsl-jpa, which is configured to
+		automatically create a type-safe model from the @Entity classes.
+		
+		The configuration is performed using JavaConfig (look Ma, no XML!) and the EntityManagerFactory,
+		the Transaction Manager and the DataSource are created in this way.
+		
+		Integration tests are written to check some basic functionalities of the Repositories. For
+		the assertions quite advanced usage of hamcrest matchers is performed.
+	</description>
+
+	<properties>		
+		<javax.inject.version>1</javax.inject.version>
+		<spring.context.version>3.2.6.RELEASE</spring.context.version>
+		<spring.jdbc.version>3.2.6.RELEASE</spring.jdbc.version>
+		<spring.data.jdbc.version>1.0.0.RELEASE</spring.data.jdbc.version>
+		<spring.test.version>3.2.6.RELEASE</spring.test.version>
+		<apache.commons.dbcp.version>1.4</apache.commons.dbcp.version>
+		<mysql.connector.version>5.1.28</mysql.connector.version>
+		<querydsl.version>2.9.0</querydsl.version> <!-- do not upgrade: required by Spring Data -->
+		<hamcrest.version>1.3</hamcrest.version>
+	</properties>
+
+	<dependencies>
+		<!-- ### @Inject annotation ### -->
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>${javax.inject.version}</version>
+		</dependency>
+	
+		<!-- ### SPRING ### -->
+		
+		<!-- context -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.context.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+						
+		<!-- JDBC -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.jdbc.version}</version>
+		</dependency>
+		
+		<!-- Spring Data -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jdbc-core</artifactId>
+			<version>${spring.data.jdbc.version}</version>
+		</dependency>
+		
+		<!-- Test -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.test.version}</version>
+		</dependency>
+		
+		<!-- ### Testing: Hamcrest Matchers ### -->
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-core</artifactId>
+			<version>${hamcrest.version}</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-library</artifactId>
+			<version>${hamcrest.version}</version>
+			<scope>test</scope>			
+		</dependency>
+				
+		<!-- ### Database ### -->
+		
+		<!-- Database Connection Pool -->
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>${apache.commons.dbcp.version}</version>
+		</dependency>		
+		
+		<!-- JDBC Driver for MySQL -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.connector.version}</version>
+		</dependency>
+		
+		<!-- ### QueryDSL ### -->		
+		<dependency>
+			<groupId>com.mysema.querydsl</groupId>
+			<artifactId>querydsl-sql</artifactId>
+			<version>${querydsl.version}</version>
+		</dependency>
+		
+	</dependencies>
+
+	<build>
+		<plugins>
+<!-- I don't know what this does -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${basedir}/src/generated/java</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+					
+			<plugin>
+				<groupId>com.mysema.querydsl</groupId>
+				<artifactId>querydsl-maven-plugin</artifactId>
+				<version>2.7.2</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>export</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<jdbcDriver>com.mysql.jdbc.Driver</jdbcDriver>
+					<jdbcUrl>jdbc:mysql://localhost:3306/spdata05?autoReconnect=true</jdbcUrl>
+					<jdbcUser>root</jdbcUser>
+					<jdbcPassword>Accenture1</jdbcPassword>
+					<packageName>org.joolzminer.examples.sdata.jdbc.domain</packageName>
+					<targetFolder>${project.basedir}/src/generated/java</targetFolder>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>${mysql.connector.version}</version>
+					</dependency>				
+					<dependency>
+						<groupId>ch.qos.logback</groupId>
+						<artifactId>logback-classic</artifactId>
+						<version>${logback.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+
+
+</project>
+

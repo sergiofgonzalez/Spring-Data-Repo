@@ -1,0 +1,133 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.joolzminer</groupId>
+		<artifactId>chapter-02-repositories</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+    <artifactId>001-jpa-repositories-xml</artifactId>
+
+    <packaging>jar</packaging>
+
+    <name>|-- 001-jpa-repositories</name>
+	<description>
+		Keywords:
+			+ Spring Data Repositories
+			+ Spring Data CrudRepositories
+
+		This project requires MySQL and a schema named spdata02!!
+		
+		Demonstrates the magic of Spring Data to create a Data Access Layer for a 
+		domain model involving a Customer with a one-to-many relationship with 
+		an Address class and an embedded email address.
+
+		Note that all the JPA configuration is performed in the application-context, 
+		and therefore no persistence.xml is needed!!!
+		The application context enables Spring Data JPA repositories, so that
+		Spring Data Repository interfaces are auto-discovered.
+		
+		Typically, you begin by creating the domain model using JPA annotations. Then,
+		instead of creating a Dao you define a Spring Data Repository interface.
+		The generic Repository lets you define your own methods, that will be 
+		auto-implemented by SpringData just by looking at its name such as
+		findAll(), findByLastName(), etc. Have a look a CustomerRepository for an example.
+		This repository also demonstrates how to use pagination and sorting.
+		
+		You can also define a CrudRepository which automatically defines a set of
+		CRUD methods such as findOne(), save() etc. so you don't have to define them yourself.		
+	</description>
+
+	<properties>		
+		<javax.inject.version>1</javax.inject.version>
+		<spring.context.version>3.2.6.RELEASE</spring.context.version>
+		<spring.orm.version>3.2.6.RELEASE</spring.orm.version>
+		<spring.data.jpa.version>1.4.3.RELEASE</spring.data.jpa.version>
+		<spring.test.version>3.2.6.RELEASE</spring.test.version>
+		<hibernate.entitymanager.version>4.3.0.Final</hibernate.entitymanager.version>
+		<hibernate.validator.version>5.0.2.Final</hibernate.validator.version>		
+		<apache.commons.dbcp.version>1.4</apache.commons.dbcp.version>
+		<mysql.connector.version>5.1.28</mysql.connector.version>
+	</properties>
+
+	<dependencies>
+		<!-- ### @Inject annotation ### -->
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>${javax.inject.version}</version>
+		</dependency>
+	
+		<!-- ### SPRING ### -->
+		
+		<!-- context -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.context.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+						
+		<!-- ORM -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.orm.version}</version>
+		</dependency>
+		
+		<!-- Spring Data -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>${spring.data.jpa.version}</version>
+		</dependency>
+		
+		<!-- Test -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.test.version}</version>
+		</dependency>
+		
+		<!-- ### Hibernate ORM ### -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>${hibernate.entitymanager.version}</version>
+		</dependency>
+		
+		<!-- ### Hibernate Validator ### -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>${hibernate.validator.version}</version>
+		</dependency>
+		
+		<!-- ### Database ### -->
+		
+		<!-- Database Connection Pool -->
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>${apache.commons.dbcp.version}</version>
+		</dependency>		
+		
+		<!-- JDBC Driver for MySQL -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.connector.version}</version>
+		</dependency>
+	</dependencies>
+
+
+
+</project>
+

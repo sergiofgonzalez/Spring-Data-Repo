@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+    							http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+	    <groupId>org.joolzminer</groupId>
+	    <artifactId>spring-data-samples</artifactId>
+	    <version>1.0-SNAPSHOT</version>
+    </parent>	
+	
+    <artifactId>chapter-06-mongodb</artifactId>
+    
+    <name>|- chapter-06-mongodb</name>
+    <description>Chapter 6: MongoDB: A Document Store</description>
+    
+	<packaging>pom</packaging>
+	
+		    
+	<modules>
+		<module>007-basic-mongodb</module>
+		<module>008-springdata-mongodb</module>
+		<module>009-springdata-mongodb-repositories</module>
+		<module>010-springdata-mongodb-repositories-querydsl</module>
+	</modules>	   
+
+</project>

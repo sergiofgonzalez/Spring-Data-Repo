@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration debug="true" scan="false" scanPeriod="30 seconds">
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+<!-- 			<pattern>%date{ISO8601} |-%-5level in %logger - %msg%n</pattern> -->
+			<!-- 
+				New recommended pattern:
+					%d{HH:mm:ss.SSS} %-5level [%thread][%logger{0}] %m%n
+				
+				Note:
+					As not used in Multithreaded environment, removed thread 
+			-->
+			<pattern>%d{HH:mm:ss.SSS} |-%-5level [%logger{0}] %m%n</pattern>
+		</encoder>
+	</appender>
+	
+	<root level="info">
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration>

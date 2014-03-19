@@ -1,0 +1,105 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.joolzminer</groupId>
+		<artifactId>chapter-06-mongodb</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+    <artifactId>008-springdata-mongodb</artifactId>
+
+    <packaging>jar</packaging>
+
+    <name>|-- 008-springdata-mongodb</name>
+	<description>
+		Keywords:
+
+
+	</description>
+
+	<properties>		
+		<javax.inject.version>1</javax.inject.version>
+		<spring.data.mongodb.version>1.4.1.RELEASE</spring.data.mongodb.version>
+		<spring.tx.version>3.2.8.RELEASE</spring.tx.version>
+		<spring.expression.version>3.2.8.RELEASE</spring.expression.version>
+		<spring.test.version>3.2.8.RELEASE</spring.test.version>
+		<mongo.driver.version>2.9.3</mongo.driver.version>
+		<hamcrest.version>1.3</hamcrest.version>
+		<apache.commons.lang.version>3.1</apache.commons.lang.version>		
+	</properties>
+
+	<dependencies>
+		<!-- ### @Inject annotation ### -->
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>${javax.inject.version}</version>
+		</dependency>
+	
+		<!-- ### SPRING ### -->
+		
+		<!-- Spring Data MongoDB -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
+			<version>${spring.data.mongodb.version}</version>
+		</dependency>
+		
+		<!-- Spring tx -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring.tx.version}</version>
+		</dependency>
+		
+		<!-- Spring Expression -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+			<version>${spring.expression.version}</version>
+		</dependency>
+				
+		<!-- Test -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.test.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-core</artifactId>
+			<version>${hamcrest.version}</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-library</artifactId>
+			<version>${hamcrest.version}</version>
+			<scope>test</scope>			
+		</dependency>
+
+
+		<!-- ### Database ### -->
+
+		<!-- MongoDB Driver -->
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>${mongo.driver.version}</version>
+		</dependency>	
+		
+
+		<!-- ### Apache Commons ### -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${apache.commons.lang.version}</version>
+		</dependency>
+				
+	</dependencies>
+</project>
+
